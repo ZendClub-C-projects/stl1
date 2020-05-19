@@ -1,7 +1,4 @@
-﻿// GuiVector.cpp : Определяет точку входа для приложения.
-//
-
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "GuiVector.h"
 
 #define MAX_LOADSTRING 100
@@ -55,13 +52,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return (int) msg.wParam;
 }
 
-
-
-//
-//  ФУНКЦИЯ: MyRegisterClass()
-//
-//  ЦЕЛЬ: Регистрирует класс окна.
-//
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEXW wcex;
@@ -83,16 +73,6 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
-//
-//   ФУНКЦИЯ: InitInstance(HINSTANCE, int)
-//
-//   ЦЕЛЬ: Сохраняет маркер экземпляра и создает главное окно
-//
-//   КОММЕНТАРИИ:
-//
-//        В этой функции маркер экземпляра сохраняется в глобальной переменной, а также
-//        создается и выводится главное окно программы.
-//
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
@@ -111,20 +91,25 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
-//
-//  ФУНКЦИЯ: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  ЦЕЛЬ: Обрабатывает сообщения в главном окне.
-//
-//  WM_COMMAND  - обработать меню приложения
-//  WM_PAINT    - Отрисовка главного окна
-//  WM_DESTROY  - отправить сообщение о выходе и вернуться
-//
-//
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+	case WM_CREATE:
+		{
+			MoveWindow(hWnd, 50, 50, 400, 300, true);
+			SetWindowText(hWnd, L"Привет, моя первая программа на WinAPI!");
+		}
+		break;
+	case WM_MOUSEMOVE:
+		{
+			int X = LOWORD(lParam);
+			int Y = HIWORD(lParam);
+			TCHAR buff[50];
+			swprintf_s(buff, 50, L"X = %d; Y = %d", X, Y);
+			SetWindowText(hWnd, buff);
+		}
+		break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
